@@ -1,15 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Library</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
-</head>
-<body>
-    <h1 class="title">My Book Library</h1>
-    <div id="library-container">
-    </div>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Book Library</title>
+		<link rel="stylesheet" href="styles.css" />
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<header>
+			<button id="new-book">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="3em"
+					height="3em"
+					viewBox="0 0 48 48">
+					<g
+						fill="none"
+						stroke="black"
+						stroke-linejoin="round"
+						stroke-width="4">
+						<rect width="36" height="36" x="6" y="6" rx="3" />
+						<path stroke-linecap="round" d="M24 16v16m-8-8h16" />
+					</g>
+				</svg>
+			</button>
+			<h1 class="title">My Book Library</h1>
+		</header>
+		<div id="sidebar">
+			<div class="form-header">
+                <h2>Add book to library</h2>
+                <button id="close-menu">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="2em"
+                        height="2em"
+                        viewBox="0 0 24 24">
+                        <g
+                            fill="none"
+                            stroke="#ddd"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2">
+                            <path
+                                stroke-dasharray="64"
+                                stroke-dashoffset="64"
+                                d="M12 3c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9Z">
+                                <animate
+                                    fill="freeze"
+                                    attributeName="stroke-dashoffset"
+                                    dur="0.6s"
+                                    values="64;0" />
+                            </path>
+                            <path
+                                stroke-dasharray="8"
+                                stroke-dashoffset="8"
+                                d="M12 12l4 4M12 12l-4 -4M12 12l-4 4M12 12l4 -4">
+                                <animate
+                                    fill="freeze"
+                                    attributeName="stroke-dashoffset"
+                                    begin="0.6s"
+                                    dur="0.2s"
+                                    values="8;0" />
+                            </path>
+                        </g>
+                    </svg>
+                </button>
+            </div>
+			<form id="book-form">
+				<div class="title-input">
+					<label for="book-title">Book title: </label>
+					<input type="text" name="title" id="book-title" required />
+				</div>
+				<div class="author-input">
+					<label for="book-author">Book author: </label>
+					<input type="text" name="author" id="book-author" required />
+				</div>
+				<div class="year-input">
+					<label for="book-year">Publish year: </label>
+					<input type="number" name="publishYear" id="year-input" required />
+				</div>
+				<div class="pages-input">
+					<label for="book-pages">Number of pages: </label>
+					<input type="number" name="pages" id="book-pages" required />
+				</div>
+				<div class="read-input">
+					<input type="checkbox" name="read" id="book-read" />
+					<label for="book-read">Book has been read</label>
+				</div>
+				<button type="submit">Add book</button>
+			</form>
+		</div>
+		<div id="library-container"></div>
+	</body>
 </html>
