@@ -67,22 +67,26 @@
                     </svg>
                 </button>
             </div>
-			<form id="book-form">
+			<form novalidate id="book-form">
 				<div class="title-input">
-					<label for="book-title">Book title: </label>
-					<input type="text" name="title" id="book-title" required />
+					<label for="book-title">Book title* </label>
+					<input type="text" name="title" id="book-title" placeholder="" required aria-required="true" aria-describedby="title-desc" />
+                    <span id="title-desc" class="error-msg"></span>
 				</div>
 				<div class="author-input">
-					<label for="book-author">Book author: </label>
-					<input type="text" name="author" id="book-author" required />
+					<label for="book-author">Book author* </label>
+					<input type="text" name="author" id="book-author" placeholder="" required aria-required="true" aria-describedby="author-desc" />
+                    <span id="author-desc" class="error-msg"></span>
 				</div>
 				<div class="year-input">
-					<label for="book-year">Publish year: </label>
-					<input type="number" name="publishYear" id="year-input" required />
+					<label for="book-year">Publish year* </label>
+					<input type="number" name="publishYear" id="year-input" placeholder="" min="0" required aria-required="true" aria-describedby="year-desc" />
+                    <span id="year-desc" class="error-msg"></span>
 				</div>
 				<div class="pages-input">
-					<label for="book-pages">Number of pages: </label>
-					<input type="number" name="pages" id="book-pages" required />
+					<label for="book-pages">Number of pages* </label>
+					<input type="number" name="pages" id="book-pages" placeholder="" min="1" required aria-required="true" aria-describedby="pages-desc" />
+                    <span id="pages-desc" class="error-msg"></span>
 				</div>
 				<div class="read-input">
 					<input type="checkbox" name="read" id="book-read" />
