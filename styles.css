@@ -158,9 +158,12 @@ button[type="submit"]:active {
 .book-card {
     background-color: #fafbfc;
     padding: 0 1em;
+    padding-bottom: 1em;;
     border-radius: 10px;
     box-shadow: 4px 4px 10px rgb(100, 100, 100, 0.5);
-    border: 1px solid black
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
 }
 
 .book-card > h2 {
@@ -168,4 +171,38 @@ button[type="submit"]:active {
     padding: 0.5em 0;
     border-bottom: 1px solid #ccc;
     text-align: center;
+}
+
+.book-card p + p {
+    margin-top: 0.3em;
+}
+
+.book-card > .book-options {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-top: auto;
+    gap: 1em;
+}
+
+.book-options > .option-icon {
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    color: #666;
+    border: 3px solid #ccc;
+    border-radius: 50%;
+    box-shadow: 2px 2px 8px rgb(120, 120, 120, 0.5);
+    box-sizing: content-box;
+    padding: 0.2em;
+    transition: all 100ms;
+}
+
+.option-icon.delete-book:hover {
+    background-color: red;
+    color: white;
+}
+
+.option-icon.toggle-read:hover {
+    color: blue;
 }
