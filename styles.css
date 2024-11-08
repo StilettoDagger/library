@@ -23,13 +23,14 @@ header {
     display: flex;
     margin-bottom: 2em;
     align-items: center;
-    padding: 0 2em;
+    padding: 0 10em;
 }
 
 h1.title {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    font-size: 2.4rem;
 }
 
 button#new-book, button#close-menu {
@@ -147,10 +148,11 @@ button[type="submit"]:active {
 #library-container {
     grid-area: library;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1em;
-    padding: 0 2em;
+    padding: 0 10em;
     height: fit-content;
+    font-size: 1.2rem;
 }
 
 .book-card {

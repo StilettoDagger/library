@@ -1,8 +1,8 @@
 const myLibrary = {
 	books: [],
 	currentIndex: 0,
-	addBookToLibrary(name, author, publishDate, pages) {
-		const book = new Book(name, author, publishDate, pages);
+	addBookToLibrary(name, author, publishDate, pages, read) {
+		const book = new Book(name, author, publishDate, pages, read);
 		this.books.push(book);
 	},
 	displayLibrary() {
@@ -29,17 +29,22 @@ const myLibrary = {
 			bookPages.innerHTML = `<strong>Page Count: </strong> ${book.pages}`;
 			bookCard.appendChild(bookPages);
 
+            const readStatus = document.createElement("p");
+            readStatus.innerHTML = `<strong>Finished: </strong> ${book.read ? "✅" : "❌"}`;
+            bookCard.appendChild(readStatus);
+
 			libraryContainer.appendChild(bookCard);
 			this.currentIndex++;
 		}
 	},
 };
 
-function Book(name, author, publishDate, pages) {
+function Book(name, author, publishDate, pages, read) {
 	this.name = name;
 	this.author = author;
 	this.publishDate = publishDate;
 	this.pages = pages;
+    this.read = read;
 }
 
 function showErrorMsg(element) {
@@ -69,7 +74,7 @@ document.getElementById("book-form").addEventListener("submit", (e) => {
 			showErrorMsg(input);
 		} else {
 			const prop = input.getAttribute("name");
-			const val = input.value;
+			const val = input.type === "checkbox" ? input.checked : input.value;
 			input.classList.remove("invalid");
 
 			newBook[prop] = val;
@@ -83,7 +88,8 @@ document.getElementById("book-form").addEventListener("submit", (e) => {
 		newBook.title,
 		newBook.author,
 		newBook.publishYear,
-		newBook.pages
+		newBook.pages,
+        newBook.read
 	);
 	myLibrary.displayLibrary();
 	e.target.reset();
@@ -128,13 +134,14 @@ document.getElementById("close-menu").addEventListener("click", e => {
     document.getElementById("new-book").classList.remove("hidden");
 })
 
-myLibrary.addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 1937, 310);
+myLibrary.addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 1937, 310, false);
 myLibrary.addBookToLibrary(
 	"Harry Potter and the Philosopher's Stone",
 	"J.K. Rowling",
 	1997,
-	223
+	223,
+    true
 );
-myLibrary.addBookToLibrary("Dune", "Frank Herbert", 1965, 412);
+myLibrary.addBookToLibrary("Dune", "Frank Herbert", 1965, 412, false);
 
 myLibrary.displayLibrary();
