@@ -89,6 +89,8 @@ document.getElementById("book-form").addEventListener("submit", (e) => {
 	e.target.reset();
 });
 
+// Event listeners to validate input elements.
+
 document.querySelectorAll("#book-form input[required]").forEach((input) => {
 	input.addEventListener("input", (e) => {
 		const errorMsg = e.target.nextElementSibling;
@@ -106,6 +108,25 @@ document.querySelectorAll("#book-form input[required]").forEach((input) => {
 		}
 	});
 });
+
+// Event listeners for opening and closing the book form menu
+
+document.getElementById("new-book").addEventListener("click", e => {
+    const sidebar = document.getElementById("sidebar");
+
+    sidebar.classList.add("shown");
+    document.getElementById("new-book").classList.add("hidden");
+
+    // Reset the form
+    document.getElementById("book-form").reset();
+});
+
+document.getElementById("close-menu").addEventListener("click", e => {
+    const sidebar = document.getElementById("sidebar");
+
+    sidebar.classList.remove("shown");
+    document.getElementById("new-book").classList.remove("hidden");
+})
 
 myLibrary.addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 1937, 310);
 myLibrary.addBookToLibrary(

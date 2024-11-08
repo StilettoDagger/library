@@ -57,15 +57,21 @@ button#new-book:hover > svg > * {
 #sidebar {
     grid-area: sidebar;
     display: flex;
+    position: absolute;
+    height: 100%;
+    left: -1000px;
+    padding: 0.5em 1em;
     flex-direction: column;
     background-color: #875029;
     color: white;
-    padding: 0.5em 1em;
     font-size: 1.3rem;
+    transition: left 350ms;
 }
 
 #sidebar.shown {
+    position: relative;
     display: flex;
+    left: 0;
 }
 
 .form-header {
