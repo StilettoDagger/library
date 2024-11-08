@@ -113,8 +113,14 @@ input:not([type="checkbox"]):focus {
     outline: 3px solid rgb(8, 165, 249);
 }
 
-input:not(:placeholder-shown):invalid {
+input.invalid {
     outline: 3px solid red;
+}
+
+.error-msg {
+    color: red;
+    font-weight: bold;
+    margin-top: 0.5em;
 }
 
 button[type="submit"] {
