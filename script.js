@@ -85,7 +85,7 @@ function showErrorMsg(element) {
 	}
 }
 
-// Event listener for add book button
+// Event listener for submitting the book form and adding a new book.
 
 document.getElementById("book-form").addEventListener("submit", (e) => {
 	e.preventDefault();
@@ -119,6 +119,7 @@ document.getElementById("book-form").addEventListener("submit", (e) => {
 		newBook.read
 	);
 	e.target.reset();
+	closeSidebar(null);
 });
 
 // Event listeners to validate input elements.
@@ -143,22 +144,9 @@ document.querySelectorAll("#book-form input[required]").forEach((input) => {
 
 // Event listeners for opening and closing the book form menu
 
-document.getElementById("new-book").addEventListener("click", (e) => {
-	const sidebar = document.getElementById("sidebar");
+document.getElementById("new-book").addEventListener("click", openSidebar);
 
-	sidebar.classList.add("shown");
-	document.getElementById("new-book").classList.add("hidden");
-
-	// Reset the form
-	document.getElementById("book-form").reset();
-});
-
-document.getElementById("close-menu").addEventListener("click", (e) => {
-	const sidebar = document.getElementById("sidebar");
-
-	sidebar.classList.remove("shown");
-	document.getElementById("new-book").classList.remove("hidden");
-});
+document.getElementById("close-menu").addEventListener("click", closeSidebar);
 
 myLibrary.addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 1937, 310, false);
 myLibrary.addBookToLibrary(
@@ -169,6 +157,29 @@ myLibrary.addBookToLibrary(
 	true
 );
 myLibrary.addBookToLibrary("Dune", "Frank Herbert", 1965, 412, false);
+
+// Event handler function for opening the sidebar menu
+
+function openSidebar(e) {
+	const sidebar = document.getElementById("sidebar");
+
+	sidebar.classList.add("shown");
+	document.getElementById("new-book").classList.add("hidden");
+	document.body.classList.add('sidebar-open');
+
+	// Reset the form
+	document.getElementById("book-form").reset();
+}
+
+// Event handler function for closing the sidebar menu
+
+function closeSidebar(e) {
+	const sidebar = document.getElementById("sidebar");
+
+	sidebar.classList.remove("shown");
+	document.getElementById("new-book").classList.remove("hidden");
+	document.body.classList.remove('sidebar-open');
+}
 
 // Event handler function for removing books from the library
 
@@ -192,5 +203,5 @@ function toggleReadHandler(e) {
 	const readStatus = document.querySelector(
 		`.book-card[data-index="${bookIndex}"] .read-status`
 	);
-	readStatus.textContent = myLibrary.books[bookIndex].read ? "✅": "❌";
+	readStatus.textContent = myLibrary.books[bookIndex].read ? "✅" : "❌";
 }
