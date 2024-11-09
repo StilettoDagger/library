@@ -207,3 +207,34 @@ button[type="submit"]:active {
 .option-icon.toggle-read:hover {
     color: green;
 }
+
+
+@media screen and (max-width: 800px) {
+   header, #library-container {
+    padding: 1em;
+   } 
+
+   #library-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   }
+
+   .book-card {
+    width: min(100%, 400px);
+   }
+
+   #sidebar.shown {
+    position: absolute;
+    width: 100%;
+   }
+
+   #book-form, #book-form > div {
+    align-items: center;
+   }
+
+   #book-form input:required {
+    width: clamp(200px, 100%, 400px);
+   }
+
+}
