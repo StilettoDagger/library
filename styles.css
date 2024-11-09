@@ -46,13 +46,13 @@ button#new-book.hidden {
     display: none;
 }
 
-button#new-book svg > * {
-    stroke: #666;
-    transition: all 50ms;
+button#new-book {
+    color: #666;
+    transition: all 100ms;
 }
 
-button#new-book:hover > svg > * {
-    stroke: black;
+button#new-book:hover {
+    color: black;
 }
 
 #sidebar {
@@ -82,12 +82,13 @@ button#new-book:hover > svg > * {
     justify-content: space-between;
 }
 
-button#close-menu > svg > * {
+button#close-menu {
+    color: #ddd;
     transition: all 100ms;
 }
 
-button#close-menu:hover > svg > * {
-    stroke: white;
+button#close-menu:hover {
+    color: white;
 }
 
 #book-form, #book-form > div:not(.read-input) {
@@ -199,10 +200,10 @@ button[type="submit"]:active {
 }
 
 .option-icon.delete-book:hover {
-    background-color: red;
+    background-color: rgb(229, 11, 11);
     color: white;
 }
 
 .option-icon.toggle-read:hover {
-    color: blue;
+    color: green;
 }

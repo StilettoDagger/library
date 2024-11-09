@@ -1,59 +1,64 @@
 const myLibrary = {
-	books: [],
-	currentIndex: 0,
+	books: {},
+	currentIndex: -1,
 	addBookToLibrary(name, author, publishDate, pages, read) {
+		this.currentIndex++;
 		const book = new Book(name, author, publishDate, pages, read);
-		this.books.push(book);
+		this.books[this.currentIndex] = book;
+		this.displayBook(book);
 	},
-	displayLibrary() {
-		// Display the library on the DOM and update its content.
+	displayBook(book) {
+		// Display the book on the DOM.
+
+		// Book description
 		const libraryContainer = document.getElementById("library-container");
-		while (this.currentIndex < this.books.length) {
-			const book = this.books[this.currentIndex];
-			const bookCard = document.createElement("div");
-			bookCard.classList.add("book-card");
-			bookCard.setAttribute("data-book", this.currentIndex);
+		const bookCard = document.createElement("div");
+		bookCard.classList.add("book-card");
+		bookCard.setAttribute("data-index", this.currentIndex);
 
-			const bookTitle = document.createElement("h2");
-			bookTitle.textContent = book.name;
-			bookCard.appendChild(bookTitle);
+		const bookTitle = document.createElement("h2");
+		bookTitle.textContent = book.name;
+		bookCard.appendChild(bookTitle);
 
-			const bookAuthor = document.createElement("p");
-			bookAuthor.innerHTML = `<strong>Author: </strong> ${book.author}`;
-			bookCard.appendChild(bookAuthor);
+		const bookAuthor = document.createElement("p");
+		bookAuthor.innerHTML = `<strong>Author: </strong> ${book.author}`;
+		bookCard.appendChild(bookAuthor);
 
-			const bookPublishDate = document.createElement("p");
-			bookPublishDate.innerHTML = `<strong>Publish Date: </strong> ${book.publishDate}`;
-			bookCard.appendChild(bookPublishDate);
+		const bookPublishDate = document.createElement("p");
+		bookPublishDate.innerHTML = `<strong>Publish Date: </strong> ${book.publishDate}`;
+		bookCard.appendChild(bookPublishDate);
 
-			const bookPages = document.createElement("p");
-			bookPages.innerHTML = `<strong>Page Count: </strong> ${book.pages}`;
-			bookCard.appendChild(bookPages);
+		const bookPages = document.createElement("p");
+		bookPages.innerHTML = `<strong>Page Count: </strong> ${book.pages}`;
+		bookCard.appendChild(bookPages);
 
-			const readStatus = document.createElement("p");
-			readStatus.innerHTML = `<strong>Finished: </strong> ${
-				book.read ? "✅" : "❌"
-			}`;
-			bookCard.appendChild(readStatus);
+		const readStatus = document.createElement("p");
+		readStatus.innerHTML = `<strong>Finished: </strong> <span class="read-status">${
+			book.read ? "✅" : "❌"
+		}</span>`;
+		bookCard.appendChild(readStatus);
 
-			// Book options
-			const options = document.createElement("div");
-			options.classList.add("book-options");
-            const deleteOption = document.createElement("div");
-            deleteOption.classList.add("option-icon", "delete-book");
-            deleteOption.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24"><use href="#fluent--delete-24-regular"/></svg>`;
-            options.appendChild(deleteOption);
+		// Book options
+		const options = document.createElement("div");
+		options.classList.add("book-options");
+		options.setAttribute("data-index", this.currentIndex);
+		const deleteOption = document.createElement("div");
+		deleteOption.classList.add("option-icon", "delete-book");
+		deleteOption.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24"><use href="#fluent--delete-24-regular"/></svg>`;
+		options.appendChild(deleteOption);
 
-            const editReadOption = document.createElement("div");
-            editReadOption.classList.add("option-icon", "toggle-read");
-            editReadOption.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24"><use href="#flowbite--edit-outline"/></svg>`;
-            options.appendChild(editReadOption);
+		deleteOption.addEventListener("click", deleteBookHandler);
 
-            bookCard.appendChild(options);
+		const editReadOption = document.createElement("div");
+		editReadOption.classList.add("option-icon", "toggle-read");
+		editReadOption.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="10)%" viewBox="0 0 24 24"><use href="#eva--checkmark-circle-outline"/></svg>`;
+		options.appendChild(editReadOption);
 
-			libraryContainer.appendChild(bookCard);
-			this.currentIndex++;
-		}
+		editReadOption.addEventListener("click", toggleReadHandler);
+
+		bookCard.appendChild(options);
+
+		libraryContainer.appendChild(bookCard);
 	},
 };
 
@@ -65,6 +70,10 @@ function Book(name, author, publishDate, pages, read) {
 	this.read = read;
 }
 
+Book.prototype.toggleRead = function () {
+	this.read = !this.read;
+};
+
 function showErrorMsg(element) {
 	const errorMsg = element.nextElementSibling;
 	if (element.validity.valueMissing) {
@@ -72,7 +81,7 @@ function showErrorMsg(element) {
 	} else if (element.validity.rangeUnderflow) {
 		errorMsg.textContent = "* Invalid number.";
 	} else if (element.validity.badInput) {
-		errorMsg.textContent = "* Please enter a number.";
+		errorMsg.textContent = "* Please enter a valid number.";
 	}
 }
 
@@ -109,7 +118,6 @@ document.getElementById("book-form").addEventListener("submit", (e) => {
 		newBook.pages,
 		newBook.read
 	);
-	myLibrary.displayLibrary();
 	e.target.reset();
 });
 
@@ -162,4 +170,27 @@ myLibrary.addBookToLibrary(
 );
 myLibrary.addBookToLibrary("Dune", "Frank Herbert", 1965, 412, false);
 
-myLibrary.displayLibrary();
+// Event handler function for removing books from the library
+
+function deleteBookHandler(e) {
+	const bookIndex = +this.parentElement.getAttribute("data-index");
+	delete myLibrary.books[bookIndex];
+
+	const bookCard = document.querySelector(
+		`.book-card[data-index="${bookIndex}"]`
+	);
+	bookCard.remove();
+}
+
+// Event handler function for toggling the read status of a book in the library
+
+function toggleReadHandler(e) {
+	const bookIndex = +this.parentElement.getAttribute("data-index");
+
+	myLibrary.books[bookIndex].toggleRead();
+
+	const readStatus = document.querySelector(
+		`.book-card[data-index="${bookIndex}"] .read-status`
+	);
+	readStatus.textContent = myLibrary.books[bookIndex].read ? "✅": "❌";
+}
