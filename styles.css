@@ -60,20 +60,20 @@ button#new-book:hover {
     display: flex;
     position: absolute;
     height: 100%;
-    left: -1000px;
+    transform: translateX(-1000px);
     padding: 0.5em 1em;
     flex-direction: column;
     background-color: #875029;
     color: white;
     font-size: 1.3rem;
-    transition: left 350ms;
+    transition: transform 350ms;
     box-shadow: 4px 0 10px rgb(0, 0, 0, 0.5);
 }
 
 #sidebar.shown {
     position: relative;
     display: flex;
-    left: 0;
+    transform: translateX(0);
 }
 
 .form-header {
