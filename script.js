@@ -74,26 +74,17 @@ Book.prototype.toggleRead = function () {
 	this.read = !this.read;
 };
 
-function showErrorMsg(element) {
-	const errorMsg = element.nextElementSibling;
-	if (element.validity.valueMissing) {
-		errorMsg.textContent = "* Missing input value.";
-	} else if (element.validity.rangeUnderflow) {
-		errorMsg.textContent = "* Invalid number.";
-	} else if (element.validity.badInput) {
-		errorMsg.textContent = "* Please enter a valid number.";
-	}
-}
+/* ================== EVENT LISTENERS ================== */   
 
 // Event listener for submitting the book form and adding a new book.
 
 document.getElementById("book-form").addEventListener("submit", (e) => {
 	e.preventDefault();
-
+	
 	const inputs = document.querySelectorAll("#book-form input");
 	const newBook = {};
 	let isValid = true;
-
+	
 	inputs.forEach((input) => {
 		if (!input.validity.valid) {
 			isValid = false;
@@ -103,13 +94,13 @@ document.getElementById("book-form").addEventListener("submit", (e) => {
 			const prop = input.getAttribute("name");
 			const val = input.type === "checkbox" ? input.checked : input.value;
 			input.classList.remove("invalid");
-
+			
 			newBook[prop] = val;
 		}
 	});
 	// If one of the input elements is invalid, return the function.
 	if (!isValid) return;
-
+	
 	// Otherwise add the new book and display it
 	myLibrary.addBookToLibrary(
 		newBook.title,
@@ -129,7 +120,7 @@ document.querySelectorAll("#book-form input[required]").forEach((input) => {
 		const errorMsg = e.target.nextElementSibling;
 		errorMsg.textContent = "";
 	});
-
+	
 	input.addEventListener("blur", (e) => {
 		const el = e.target;
 		// Show error messages if the input is invalid and the element has been unfocused
@@ -148,25 +139,29 @@ document.getElementById("new-book").addEventListener("click", openSidebar);
 
 document.getElementById("close-menu").addEventListener("click", closeSidebar);
 
-myLibrary.addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 1937, 310, false);
-myLibrary.addBookToLibrary(
-	"Harry Potter and the Philosopher's Stone",
-	"J.K. Rowling",
-	1997,
-	223,
-	true
-);
-myLibrary.addBookToLibrary("Dune", "Frank Herbert", 1965, 412, false);
+/* ================== FUNCTIONS ================== */   
 
+// Function for showing error messages below invalid input fields.
+
+function showErrorMsg(element) {
+	const errorMsg = element.nextElementSibling;
+	if (element.validity.valueMissing) {
+		errorMsg.textContent = "* Missing input value.";
+	} else if (element.validity.rangeUnderflow) {
+		errorMsg.textContent = "* Invalid number.";
+	} else if (element.validity.badInput) {
+		errorMsg.textContent = "* Please enter a valid number.";
+	}
+}
 // Event handler function for opening the sidebar menu
 
 function openSidebar(e) {
 	const sidebar = document.getElementById("sidebar");
-
+	
 	sidebar.classList.add("shown");
 	document.getElementById("new-book").classList.add("hidden");
 	document.body.classList.add('sidebar-open');
-
+	
 	// Reset the form
 	document.getElementById("book-form").reset();
 }
@@ -175,7 +170,7 @@ function openSidebar(e) {
 
 function closeSidebar(e) {
 	const sidebar = document.getElementById("sidebar");
-
+	
 	sidebar.classList.remove("shown");
 	document.getElementById("new-book").classList.remove("hidden");
 	document.body.classList.remove('sidebar-open');
@@ -186,7 +181,7 @@ function closeSidebar(e) {
 function deleteBookHandler(e) {
 	const bookIndex = +this.parentElement.getAttribute("data-index");
 	delete myLibrary.books[bookIndex];
-
+	
 	const bookCard = document.querySelector(
 		`.book-card[data-index="${bookIndex}"]`
 	);
@@ -197,11 +192,23 @@ function deleteBookHandler(e) {
 
 function toggleReadHandler(e) {
 	const bookIndex = +this.parentElement.getAttribute("data-index");
-
+	
 	myLibrary.books[bookIndex].toggleRead();
-
+	
 	const readStatus = document.querySelector(
 		`.book-card[data-index="${bookIndex}"] .read-status`
 	);
 	readStatus.textContent = myLibrary.books[bookIndex].read ? "✅" : "❌";
 }
+
+// Adding books to the library.
+
+myLibrary.addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 1937, 310, false);
+myLibrary.addBookToLibrary(
+	"Harry Potter and the Philosopher's Stone",
+	"J.K. Rowling",
+	1997,
+	223,
+	true
+);
+myLibrary.addBookToLibrary("Dune", "Frank Herbert", 1965, 412, false);
