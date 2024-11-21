@@ -1,20 +1,34 @@
-const myLibrary = {
-	books: {},
-	currentIndex: -1,
-	addBookToLibrary(name, author, publishDate, pages, read) {
-		this.currentIndex++;
+// Static class that defines
+class Library {
+	static #books = {};
+	static #currentIndex = -1;
+	static addBookToLibrary(name, author, publishDate, pages, read) {
+		this.#currentIndex++;
 		const book = new Book(name, author, publishDate, pages, read);
-		this.books[this.currentIndex] = book;
-		this.displayBook(book);
-	},
-	displayBook(book) {
+		this.#books[this.#currentIndex] = book;
+		this.#displayBook(book);
+	};
+
+	static removeBook(bookIndex) {
+		delete this.#books[bookIndex];
+	}
+
+	static toggleReadBook(bookIndex) {
+		this.#books[bookIndex].toggleRead();
+	}
+
+	static getReadStatus(bookIndex) {
+		return this.#books[bookIndex].read;
+	}
+
+	static #displayBook(book) {
 		// Display the book on the DOM.
 
 		// Book description
 		const libraryContainer = document.getElementById("library-container");
 		const bookCard = document.createElement("div");
 		bookCard.classList.add("book-card");
-		bookCard.setAttribute("data-index", this.currentIndex);
+		bookCard.setAttribute("data-index", this.#currentIndex);
 
 		const bookTitle = document.createElement("h2");
 		bookTitle.textContent = book.name;
@@ -41,7 +55,7 @@ const myLibrary = {
 		// Book options
 		const options = document.createElement("div");
 		options.classList.add("book-options");
-		options.setAttribute("data-index", this.currentIndex);
+		options.setAttribute("data-index", this.#currentIndex);
 		const deleteOption = document.createElement("div");
 		deleteOption.classList.add("option-icon", "delete-book");
 		deleteOption.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24"><use href="#fluent--delete-24-regular"/></svg>`;
@@ -59,20 +73,41 @@ const myLibrary = {
 		bookCard.appendChild(options);
 
 		libraryContainer.appendChild(bookCard);
-	},
+	}
 };
 
-function Book(name, author, publishDate, pages, read) {
-	this.name = name;
-	this.author = author;
-	this.publishDate = publishDate;
-	this.pages = pages;
-	this.read = read;
+// function Book(name, author, publishDate, pages, read) {
+// 	this.name = name;
+// 	this.author = author;
+// 	this.publishDate = publishDate;
+// 	this.pages = pages;
+// 	this.read = read;
+// }
+
+// Book.prototype.toggleRead = function () {
+// 	this.read = !this.read;
+// };
+
+class Book {
+	name;
+	author;
+	publishDate;
+	pages;
+	read;
+
+	constructor (name, author, publishDate, pages, read)
+	{
+		this.name = name;
+		this.author = author;
+		this.publishDate = publishDate;
+		this.pages = pages;
+		this.read = read;
+	}
+
+	toggleRead() {
+		this.read = !this.read;
+	}
 }
-
-Book.prototype.toggleRead = function () {
-	this.read = !this.read;
-};
 
 /* ================== EVENT LISTENERS ================== */   
 
@@ -102,7 +137,7 @@ document.getElementById("book-form").addEventListener("submit", (e) => {
 	if (!isValid) return;
 	
 	// Otherwise add the new book and display it
-	myLibrary.addBookToLibrary(
+	Library.addBookToLibrary(
 		newBook.title,
 		newBook.author,
 		newBook.publishYear,
@@ -180,7 +215,7 @@ function closeSidebar(e) {
 
 function deleteBookHandler(e) {
 	const bookIndex = +this.parentElement.getAttribute("data-index");
-	delete myLibrary.books[bookIndex];
+	Library.removeBook(bookIndex);
 	
 	const bookCard = document.querySelector(
 		`.book-card[data-index="${bookIndex}"]`
@@ -193,22 +228,22 @@ function deleteBookHandler(e) {
 function toggleReadHandler(e) {
 	const bookIndex = +this.parentElement.getAttribute("data-index");
 	
-	myLibrary.books[bookIndex].toggleRead();
+	Library.toggleReadBook(bookIndex);
 	
 	const readStatus = document.querySelector(
 		`.book-card[data-index="${bookIndex}"] .read-status`
 	);
-	readStatus.textContent = myLibrary.books[bookIndex].read ? "✅" : "❌";
+	readStatus.textContent = Library.getReadStatus(bookIndex) ? "✅" : "❌";
 }
 
 // Adding books to the library.
 
-myLibrary.addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 1937, 310, false);
-myLibrary.addBookToLibrary(
+Library.addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 1937, 310, false);
+Library.addBookToLibrary(
 	"Harry Potter and the Philosopher's Stone",
 	"J.K. Rowling",
 	1997,
 	223,
 	true
 );
-myLibrary.addBookToLibrary("Dune", "Frank Herbert", 1965, 412, false);
+Library.addBookToLibrary("Dune", "Frank Herbert", 1965, 412, false);
